@@ -1,0 +1,34 @@
+{
+  "name": "uranus-yaml",
+  "displayName": "Uranus YAML",
+  "description": "Enable Ctrl+Click to jump to Argo WorkflowTemplate definitions",
+  "version": "0.0.1",
+  "publisher": "ThaiPham",
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onLanguage:yaml"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "languages": [
+      {
+        "id": "yaml",
+        "aliases": [
+          "YAML"
+        ],
+        "extensions": [
+          ".yaml",
+          ".yml"
+        ]
+      }
+    ]
+  },
+  "scripts": {},
+  "devDependencies": {},
+  "dependencies": {}
+}
