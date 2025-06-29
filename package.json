@@ -13,7 +13,7 @@
   "activationEvents": [
     "onLanguage:yaml"
   ],
-  "main": "./extension.js",
+  "main": "./out/extension.js",
   "contributes": {
     "languages": [
       {
@@ -28,7 +28,16 @@
       }
     ]
   },
-  "scripts": {},
-  "devDependencies": {},
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/vscode": "^1.80.0",
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0"
+  },
   "dependencies": {}
 }
