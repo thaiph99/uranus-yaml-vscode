@@ -1,0 +1,21 @@
+# Source TypeScript files
+src/**
+tsconfig.json
+
+# Development dependencies
+node_modules/**
+.git/**
+.gitignore
+
+# Development files
+*.vsix
+.editorconfig
+.vscode/**
+
+# Test files
+test/**
+coverage/**
+
+# Documentation
+docs/**
+.github/**
