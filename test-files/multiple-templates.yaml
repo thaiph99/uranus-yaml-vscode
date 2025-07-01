@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: template-a
+spec:
+  templates:
+    - name: step1
+      container:
+        image: alpine
+        command: [sh, -c]
+        args: ["echo from template-a step1"]
+    - name: common-step
+      container:
+        image: alpine
+        command: [sh, -c]
+        args: ["echo from template-a common-step"]
+---
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: template-b
+spec:
+  templates:
+    - name: step1
+      container:
+        image: nginx
+        command: [sh, -c]
+        args: ["echo from template-b step1"]
+    - name: common-step
+      container:
+        image: nginx
+        command: [sh, -c]
+        args: ["echo from template-b common-step"]

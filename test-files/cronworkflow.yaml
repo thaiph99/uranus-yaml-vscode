@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: scheduled-workflow
+spec:
+  schedule: "0 0 * * *"
+  workflowSpec:
+    entrypoint: main
+    templates:
+      - name: main
+        steps:
+          - - name: daily-step1
+              templateRef:
+                name: tem-tem1
+                template: step1
+          - - name: daily-step2
+              templateRef:
+                name: tem-tem1
+                template: step2

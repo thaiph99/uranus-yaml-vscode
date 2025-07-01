@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: test-flow-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      steps:
+        - - name: call-step1
+            templateRef:
+              name: tem-tem1
+              template: step1
+        - - name: call-step2
+            templateRef:
+              name: tem-tem1
+              template: step2
+        - - name: call-another-template
+            templateRef:
+              name: other-template
+              template: step1
