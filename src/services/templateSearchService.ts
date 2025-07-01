@@ -1,5 +1,5 @@
-import { WorkflowTemplateLocation, TemplateSearchResult } from '../types';
-import { FileSystemService } from './fileSystemService';
+import { WorkflowTemplateLocation, TemplateSearchResult } from "../types";
+import { FileSystemService } from "./fileSystemService";
 
 interface CachedFileContent {
   content: string;
@@ -28,7 +28,7 @@ export class TemplateSearchService {
 
     return {
       templateName,
-      locations: locations.flat()
+      locations: locations.flat(),
     };
   }
 
@@ -40,7 +40,9 @@ export class TemplateSearchService {
 
     for (let i = 0; i < files.length; i += this.maxConcurrency) {
       const batch = files.slice(i, i + this.maxConcurrency);
-      const batchPromises = batch.map(file => this.searchInFile(file, templateName));
+      const batchPromises = batch.map((file) =>
+        this.searchInFile(file, templateName)
+      );
       promises.push(...batchPromises);
     }
 
@@ -63,7 +65,7 @@ export class TemplateSearchService {
     const cached = this.fileCache.get(filePath);
     const now = Date.now();
 
-    if (cached && (now - cached.timestamp) < this.cacheTimeout) {
+    if (cached && now - cached.timestamp < this.cacheTimeout) {
       return cached.content;
     }
 
@@ -83,7 +85,7 @@ export class TemplateSearchService {
     filePath: string,
     templateName: string
   ): WorkflowTemplateLocation[] {
-    const lines = content.split('\n');
+    const lines = content.split("\n");
     const locations: WorkflowTemplateLocation[] = [];
 
     // Optimize by pre-filtering lines that contain WorkflowTemplate
@@ -96,11 +98,15 @@ export class TemplateSearchService {
 
     // Search only around WorkflowTemplate definitions
     for (const startIndex of workflowTemplateLines) {
-      const nameLineIndex = this.findTemplateNameLine(lines, startIndex, templateName);
+      const nameLineIndex = this.findTemplateNameLine(
+        lines,
+        startIndex,
+        templateName
+      );
       if (nameLineIndex !== -1) {
         locations.push({
           file: filePath,
-          line: nameLineIndex
+          line: nameLineIndex,
         });
       }
     }
@@ -113,16 +119,16 @@ export class TemplateSearchService {
     const keysToDelete: string[] = [];
 
     for (const [key, value] of this.fileCache.entries()) {
-      if ((now - value.timestamp) > this.cacheTimeout) {
+      if (now - value.timestamp > this.cacheTimeout) {
         keysToDelete.push(key);
       }
     }
 
-    keysToDelete.forEach(key => this.fileCache.delete(key));
+    keysToDelete.forEach((key) => this.fileCache.delete(key));
   }
 
   private isWorkflowTemplateLine(line: string): boolean {
-    return line.includes('kind: WorkflowTemplate');
+    return line.includes("kind: WorkflowTemplate");
   }
 
   private findTemplateNameLine(
@@ -132,7 +138,10 @@ export class TemplateSearchService {
   ): number {
     for (let j = startIndex; j < lines.length; j++) {
       const line = lines[j];
-      if (this.isMetadataSection(lines, j) && this.isTemplateName(line, templateName)) {
+      if (
+        this.isMetadataSection(lines, j) &&
+        this.isTemplateName(line, templateName)
+      ) {
         return j;
       }
     }
@@ -140,10 +149,17 @@ export class TemplateSearchService {
   }
 
   private isMetadataSection(lines: string[], currentIndex: number): boolean {
-    return currentIndex > 0 && lines[currentIndex - 1].includes('metadata:');
+    return currentIndex > 0 && lines[currentIndex - 1].includes("metadata:");
   }
 
   private isTemplateName(line: string, templateName: string): boolean {
-    return line.includes('name:') && line.includes(templateName);
+    // Extract the value after "name:" and check for exact match
+    const nameMatch = line.match(/name:\s*['"]?([^'"#\s]+)['"]?\s*(?:#.*)?$/);
+    if (!nameMatch) {
+      return false;
+    }
+
+    const extractedName = nameMatch[1];
+    return extractedName === templateName;
   }
 }
