@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: tem-tem1
+spec:
+  templates:
+    - name: step1
+      container:
+        image: alpine
+        command: [sh, -c]
+        args: ["echo hello"]
+    - name: step2
+      container:
+        image: alpine
+        command: [sh, -c]
+        args: ["echo hello again"]

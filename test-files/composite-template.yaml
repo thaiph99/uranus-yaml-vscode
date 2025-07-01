@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: composite-template
+spec:
+  templates:
+    - name: orchestrator
+      steps:
+        - - name: use-step1-from-tem1
+            templateRef:
+              name: tem-tem1
+              template: step1
+        - - name: use-common-from-template-a
+            templateRef:
+              name: template-a
+              template: common-step
+    - name: another-orchestrator
+      dag:
+        tasks:
+          - name: parallel-step1
+            templateRef:
+              name: tem-tem1
+              template: step1
+          - name: parallel-step2
+            templateRef:
+              name: tem-tem1
+              template: step2
+    - name: mixed-approach
+      steps:
+        - - name: call-tem-tem1-again
+            templateRef:
+              name: tem-tem1
+              template: step1

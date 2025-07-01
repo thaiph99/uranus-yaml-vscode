@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: other-template
+spec:
+  templates:
+    - name: step1
+      container:
+        image: ubuntu
+        command: [bash, -c]
+        args: ["echo different step1"]
+    - name: step3
+      container:
+        image: ubuntu
+        command: [bash, -c]
+        args: ["echo step3 from other template"]

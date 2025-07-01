@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: complex-test-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      steps:
+        # This should go to template-a step1 (line 7 in multiple-templates.yaml)
+        - - name: call-template-a-step1
+            templateRef:
+              name: template-a
+              template: step1
+        # This should go to template-b step1 (line 21 in multiple-templates.yaml)
+        - - name: call-template-b-step1
+            templateRef:
+              name: template-b
+              template: step1
+        # This should go to template-a common-step
+        - - name: call-template-a-common
+            templateRef:
+              name: template-a
+              template: common-step
+        # This should go to template-b common-step
+        - - name: call-template-b-common
+            templateRef:
+              name: template-b
+              template: common-step

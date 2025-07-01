@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: flow-
+spec:
+  entrypoint: main
+  templates:
+    - name: main
+      steps:
+        - - name: call-tem2
+            templateRef:
+              name: tem-tem1
+              template: step1
