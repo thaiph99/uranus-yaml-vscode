@@ -16,13 +16,16 @@ export async function activate(
   );
 
   // Register the definition provider for YAML files
-  const providerDisposable = vscode.languages.registerDefinitionProvider(
+  const definitionProviderDisposable = vscode.languages.registerDefinitionProvider(
     { language: "yaml" },
     definitionProvider
   );
 
   // Register disposables
-  context.subscriptions.push(providerDisposable, workspaceCacheService);
+  context.subscriptions.push(
+    definitionProviderDisposable,
+    workspaceCacheService
+  );
 
   await vscode.window.showInformationMessage(
     "Uranus YAML extension activated."
