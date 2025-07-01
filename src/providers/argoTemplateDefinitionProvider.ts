@@ -1,12 +1,13 @@
-import * as vscode from 'vscode';
-import { TemplateSearchService } from '../services/templateSearchService';
+import * as vscode from "vscode";
+import { TemplateSearchService } from "../services/templateSearchService";
 
 /**
  * Definition provider for Argo WorkflowTemplate references in YAML files.
  * Enables Ctrl+Click navigation to template definitions.
- * Optimized with cancellation support and reduced UI noise.
  */
-export class ArgoTemplateDefinitionProvider implements vscode.DefinitionProvider {
+export class ArgoTemplateDefinitionProvider
+  implements vscode.DefinitionProvider
+{
   constructor(private readonly templateSearchService: TemplateSearchService) {}
 
   public async provideDefinition(
@@ -40,10 +41,11 @@ export class ArgoTemplateDefinitionProvider implements vscode.DefinitionProvider
     }
 
     try {
-      const searchResult = await this.templateSearchService.findTemplateDefinition(
-        workspaceFolder.uri.fsPath,
-        templateName
-      );
+      const searchResult =
+        await this.templateSearchService.findTemplateDefinition(
+          workspaceFolder.uri.fsPath,
+          templateName
+        );
 
       // Final cancellation check
       if (token.isCancellationRequested) {
@@ -52,7 +54,7 @@ export class ArgoTemplateDefinitionProvider implements vscode.DefinitionProvider
 
       if (searchResult.locations.length === 0) {
         // Don't show warning for common cases to avoid spam
-        if (templateName !== 'main' && templateName !== 'default') {
+        if (templateName !== "main" && templateName !== "default") {
           void vscode.window.showWarningMessage(
             `WorkflowTemplate '${templateName}' not found.`
           );
@@ -67,25 +69,27 @@ export class ArgoTemplateDefinitionProvider implements vscode.DefinitionProvider
         );
       }
 
-      return searchResult.locations.map(location =>
-        new vscode.Location(
-          vscode.Uri.file(location.file),
-          new vscode.Position(location.line, 0)
-        )
+      return searchResult.locations.map(
+        (location) =>
+          new vscode.Location(
+            vscode.Uri.file(location.file),
+            new vscode.Position(location.line, 0)
+          )
       );
     } catch (error) {
       // Log error but don't show to user unless in development
-      console.error('Error finding template definition:', error);
+      console.error("Error finding template definition:", error);
       return undefined;
     }
   }
 
   private isNameReference(line: string): boolean {
     // Look for template references (templateRef.name or similar patterns)
-    return line.includes('name') && (
-      line.includes('templateRef') ||
-      line.includes('template:') ||
-      line.includes('name:')
+    return (
+      line.includes("name") &&
+      (line.includes("templateRef") ||
+        line.includes("template:") ||
+        line.includes("name:"))
     );
   }
 
@@ -102,7 +106,7 @@ export class ArgoTemplateDefinitionProvider implements vscode.DefinitionProvider
       return undefined;
     }
 
-    return document.getText(wordRange).replace(/['"]/g, '');
+    return document.getText(wordRange).replace(/['"]/g, "");
   }
 
   private getWorkspaceFolder(): vscode.WorkspaceFolder | undefined {
