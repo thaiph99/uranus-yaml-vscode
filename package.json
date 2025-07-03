@@ -1,13 +1,36 @@
 {
   "name": "uranus-yaml",
-  "displayName": "Uranus YAML",
-  "description": "Enable Ctrl+Click to jump to Argo WorkflowTemplate definitions",
+  "displayName": "Uranus YAML - Argo Workflow Navigator",
+  "description": "Intelligent Ctrl+Click navigation for Argo WorkflowTemplate references in YAML files. Navigate seamlessly between template definitions and usages.",
   "version": "0.0.1",
   "publisher": "ThaiPham",
+  "author": {
+    "name": "Thai Pham"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thaiph99/uranus-yaml-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/thaiph99/uranus-yaml-vscode/issues"
+  },
+  "homepage": "https://github.com/thaiph99/uranus-yaml-vscode#readme",
+  "keywords": [
+    "yaml",
+    "argo",
+    "workflow",
+    "template",
+    "navigation",
+    "go-to-definition",
+    "kubernetes",
+    "devops"
+  ],
   "engines": {
     "vscode": "^1.80.0"
   },
   "categories": [
+    "Programming Languages",
     "Other"
   ],
   "activationEvents": [
