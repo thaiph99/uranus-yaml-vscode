@@ -15,6 +15,7 @@ node_modules/**
 # Test files
 test/**
 coverage/**
+test-files/**
 
 # Documentation
 docs/**
